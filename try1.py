@@ -1,10 +1,14 @@
-i=1
+numberOfLines=1
 f = open("http.log", "r")
 for x in f :
-    for word in x.split():
+    for index,word in enumerate(x.split()):
         if word == '200':
             print(x)
-            i+=1
+            print(x.split()[index-3])
+            print(x.split()[index+1])
+            numberOfLines+=1
     
 
-print(i)
+print(numberOfLines)
+
+f.close()
