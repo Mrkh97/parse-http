@@ -1,4 +1,5 @@
 import datetime
+import operator
 
 numberOfLines = 0
 numberOfGet = 0
@@ -24,6 +25,7 @@ def returnMonthNumber(arg):
     }
     return switcher.get(arg)
 
+myDict=[]
 
 for x in f:
     for index, word in enumerate(x.split()):
@@ -32,10 +34,11 @@ for x in f:
             if(x.split()[index-3]) == '"GET':
 
                 tarih = x.split()[index-5]
+                buyukluk = x.split()[index+1]
                 date = datetime.datetime(1000*int(tarih[8])+100*int(tarih[9])
                                          + 10*int(tarih[10])+int(tarih[11]), returnMonthNumber(tarih[4]+tarih[5]
                                                                                                + tarih[6]), 10*int(tarih[1])+int(tarih[2]), 10*int(tarih[13])+int(tarih[14]), 10*int(tarih[16])+int(tarih[17]), 10*int(tarih[19])+int(tarih[20]))
-                print(date)
+                myDict.append({'time':date,'type':'GET','size':int(buyukluk)})
                 w.write("GET"+"\n")
                 # print(x.split()[index-5])
                 w.write(tarih+"\n")
@@ -53,7 +56,7 @@ for x in f:
                 date = datetime.datetime(1000*int(tarih[8])+100*int(tarih[9])
                                          + 10*int(tarih[10])+int(tarih[11]), returnMonthNumber(tarih[4]+tarih[5]
                                                                                                + tarih[6]), 10*int(tarih[1])+int(tarih[2]), 10*int(tarih[13])+int(tarih[14]), 10*int(tarih[16])+int(tarih[17]), 10*int(tarih[19])+int(tarih[20]))
-                print(date)
+                # print(date)
                 w.write("POST"+"\n")
                 # print(x.split()[index-5])
                 w.write(x.split()[index-5]+"\n")
@@ -72,6 +75,9 @@ print('Total 200 requests={}'.format(numberOfLines))
 print('GET={}'.format(numberOfGet))
 print('POST={}'.format(numberOfPost))
 
+newlist = sorted(myDict, key=lambda d: d['time'])
+
+print(newlist)
 
 f.close()
 w.close()
