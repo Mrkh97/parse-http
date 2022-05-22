@@ -64,6 +64,96 @@ for x in f:
 
 sortedDict = sorted(myDict, key=lambda x: x['time'])
 
+totalSize = 0
+
+for i in sortedDict:
+    totalSize+=i['size']
+
+duplicateItems = []
+
+
+
+for count,item in enumerate(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            # duplicateItems.append(sortedDict[count])
+            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
+            del(sortedDict[count])
+    
+for count,item in enumerate(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            # duplicateItems.append(sortedDict[count])
+            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
+            del(sortedDict[count])
+
+for count,item in enumerate(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            # duplicateItems.append(sortedDict[count])
+            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
+            del(sortedDict[count])
+
+for count,item in enumerate(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            # duplicateItems.append(sortedDict[count])
+            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
+            del(sortedDict[count])
+
+for count,item in enumerate(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            # duplicateItems.append(sortedDict[count])
+            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
+            del(sortedDict[count])
+
+for count,item in enumerate(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            # duplicateItems.append(sortedDict[count])
+            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
+            del(sortedDict[count])
+
+for count,item in enumerate(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            # duplicateItems.append(sortedDict[count])
+            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
+            del(sortedDict[count])
+
+for count,item in enumerate(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            # duplicateItems.append(sortedDict[count])
+            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
+            del(sortedDict[count])
+
+
+for count,item in enumerate(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            duplicateItems.append(sortedDict[count])
+            # sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
+            # del(sortedDict[count])
+
+
+count = 1
+
+while count < len(sortedDict):
+    if sortedDict[count-1]['time']==sortedDict[count]['time']:
+        if sortedDict[count-1]['type']==sortedDict[count]['type']:
+            duplicateItems.append(sortedDict[count])
+    count+=1
+
+# print(sortedDict[15000]['time'])
+
+totalSizeAfter = 0
+
+for i in sortedDict:
+    totalSizeAfter+=i['size']
+
+
 w.write('Total 200 requests={}\n'.format(numberOfLines))
 w.write('GET={}\n'.format(numberOfGet))
 w.write('POST={}\n'.format(numberOfPost))
@@ -71,10 +161,12 @@ w.write('POST={}\n'.format(numberOfPost))
 print('Total 200 requests={}'.format(numberOfLines))
 print('GET={}'.format(numberOfGet))
 print('POST={}'.format(numberOfPost))
-
-
-for item in sortedDict:
-    print(item)
+# print(duplicateItems)
+print(totalSize)
+print(totalSizeAfter)
+print(len(sortedDict))
+# for item in sortedDict:
+#     print(item)
 
 # stringOfNewList = str(newlist)
 # for item in newlist:
