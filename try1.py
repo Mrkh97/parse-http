@@ -1,8 +1,5 @@
 import datetime
-import json
-import operator
 from os import remove
-import string
 import hashlib
 
 from sqlalchemy import null
@@ -71,22 +68,16 @@ Gets = {}
 Posts = {}
 
 seenGet = set()
-dupesGet = []
 
 for x in getRequests:
-    if x[0] in seenGet:
-        dupesGet.append(x)
-    else:
+    if x[0] not in seenGet:
         seenGet.add(x[0])
         # seenGet.add(x)
 
 seenPost = set()
-dupesPost = []
 
 for x in postRequests:
-    if x[0] in seenPost:
-        dupesPost.append(x)
-    else:
+    if x[0] not in seenPost:
         seenPost.add(x[0])
         # seenPost.add(x)
 
@@ -109,26 +100,28 @@ for x in seenPost:
 w.write('Total 200 requests={}\n'.format(numberOfLines))
 w.write('GET={}\n'.format(numberOfGet))
 w.write('POST={}\n'.format(numberOfPost))
-for x in dupesGet:
-    w.write(str(x)+'\n')
 
 print('Total 200 requests={}'.format(numberOfLines))
 print('GET={}'.format(numberOfGet))
 print('POST={}'.format(numberOfPost))
-print(len(dupesGet))
-print(len(dupesPost))
 print(len(seenPost))
 print(len(seenGet))
 
-
-# for x in dupesGet:
-#     print(x)
+sumUp=0
 
 for x in Gets:
+    sumUp+=sum(Gets[x])
     print(sum(Gets[x]))
+    w.write(str(x)+':'+str(sum(Gets[x]))+'\n')
+
+for x in Posts:
+    sumUp+=sum(Posts[x])
+    print(sum(Posts[x]))
+    w.write(str(x)+':'+str(sum(Posts[x]))+'\n')
 
 print(len(Gets))
 print(len(Posts))
+print(sumUp)
 
 f.close()
 w.close()
