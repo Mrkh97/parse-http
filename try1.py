@@ -1,6 +1,7 @@
 import datetime
 import json
 import operator
+from os import remove
 import string
 import hashlib
 
@@ -63,32 +64,47 @@ for x in f:
                 numberOfPost += 1
             numberOfLines += 1
 
-sortedGet = sorted(getRequests, key=lambda x: x[0])
-sortedPost = sorted(postRequests, key=lambda x: x[0])
+# sortedGet = sorted(getRequests, key=lambda x: x[0])
+# sortedPost = sorted(postRequests, key=lambda x: x[0])
 
-Gets = []
-Posts = []
+Gets = {}
+Posts = {}
 
 seenGet = set()
 dupesGet = []
 
-for x in sortedGet:
+for x in getRequests:
     if x[0] in seenGet:
         dupesGet.append(x)
     else:
         seenGet.add(x[0])
-        dupesGet.append(x)
+        # seenGet.add(x)
 
 seenPost = set()
 dupesPost = []
 
-for x in sortedPost:
+for x in postRequests:
     if x[0] in seenPost:
         dupesPost.append(x)
     else:
         seenPost.add(x[0])
-        dupesPost.append(x)
+        # seenPost.add(x)
 
+for x in seenGet:
+    Gets[x]=[]
+
+for x in seenGet:
+    for y in getRequests:
+        if y[0] == x:
+            Gets[x].append(y[2])
+
+for x in seenPost:
+    Posts[x]=[]
+
+for x in seenPost:
+    for y in postRequests:
+        if y[0] == x:
+            Posts[x].append(y[2])
 
 w.write('Total 200 requests={}\n'.format(numberOfLines))
 w.write('GET={}\n'.format(numberOfGet))
@@ -105,6 +121,14 @@ print(len(seenPost))
 print(len(seenGet))
 
 
+# for x in dupesGet:
+#     print(x)
+
+for x in Gets:
+    print(sum(Gets[x]))
+
+print(len(Gets))
+print(len(Posts))
 
 f.close()
 w.close()
