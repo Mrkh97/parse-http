@@ -29,7 +29,8 @@ def returnMonthNumber(arg):
     }
     return switcher.get(arg)
 
-myDict=[]
+getRequests=[]
+postRequests=[]
 
 for x in f:
     for index, word in enumerate(x.split()):
@@ -46,7 +47,7 @@ for x in f:
                 minute = 10*int(tarih[16])+int(tarih[17])
                 second = 10*int(tarih[19])+int(tarih[20])
                 date = int(datetime.datetime(year, month, day, hour, minute, second).timestamp())
-                myDict.append({'time':date,'type':'GET','size':int(buyukluk)})
+                getRequests.append((date,'GET',int(buyukluk)))
                 numberOfGet += 1
             if(x.split()[index-3]) == '"POST':
                 tarih = x.split()[index-5]
@@ -58,124 +59,56 @@ for x in f:
                 minute = 10*int(tarih[16])+int(tarih[17])
                 second = 10*int(tarih[19])+int(tarih[20])
                 date = int(datetime.datetime(year, month, day, hour, minute, second).timestamp())# print(date)
-                myDict.append({'time':date,'type':'POST','size':int(buyukluk)})
+                postRequests.append((date,'POST',int(buyukluk)))
                 numberOfPost += 1
             numberOfLines += 1
 
-sortedDict = sorted(myDict, key=lambda x: x['time'])
+sortedGet = sorted(getRequests, key=lambda x: x[0])
+sortedPost = sorted(postRequests, key=lambda x: x[0])
 
-totalSize = 0
+Gets = []
+Posts = []
 
-for i in sortedDict:
-    totalSize+=i['size']
+seenGet = set()
+dupesGet = []
 
-duplicateItems = []
+for x in sortedGet:
+    if x[0] in seenGet:
+        dupesGet.append(x)
+    else:
+        seenGet.add(x[0])
+        dupesGet.append(x)
 
+seenPost = set()
+dupesPost = []
 
-
-for count,item in enumerate(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            # duplicateItems.append(sortedDict[count])
-            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
-            del(sortedDict[count])
-    
-for count,item in enumerate(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            # duplicateItems.append(sortedDict[count])
-            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
-            del(sortedDict[count])
-
-for count,item in enumerate(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            # duplicateItems.append(sortedDict[count])
-            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
-            del(sortedDict[count])
-
-for count,item in enumerate(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            # duplicateItems.append(sortedDict[count])
-            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
-            del(sortedDict[count])
-
-for count,item in enumerate(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            # duplicateItems.append(sortedDict[count])
-            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
-            del(sortedDict[count])
-
-for count,item in enumerate(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            # duplicateItems.append(sortedDict[count])
-            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
-            del(sortedDict[count])
-
-for count,item in enumerate(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            # duplicateItems.append(sortedDict[count])
-            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
-            del(sortedDict[count])
-
-for count,item in enumerate(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            # duplicateItems.append(sortedDict[count])
-            sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
-            del(sortedDict[count])
-
-
-for count,item in enumerate(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            duplicateItems.append(sortedDict[count])
-            # sortedDict[count-1]['size'] = sortedDict[count-1]['size'] + sortedDict[count]['size']
-            # del(sortedDict[count])
-
-
-count = 1
-
-while count < len(sortedDict):
-    if sortedDict[count-1]['time']==sortedDict[count]['time']:
-        if sortedDict[count-1]['type']==sortedDict[count]['type']:
-            duplicateItems.append(sortedDict[count])
-    count+=1
-
-# print(sortedDict[15000]['time'])
-
-totalSizeAfter = 0
-
-for i in sortedDict:
-    totalSizeAfter+=i['size']
+for x in sortedPost:
+    if x[0] in seenPost:
+        dupesPost.append(x)
+    else:
+        seenPost.add(x[0])
+        dupesPost.append(x)
 
 
 w.write('Total 200 requests={}\n'.format(numberOfLines))
 w.write('GET={}\n'.format(numberOfGet))
 w.write('POST={}\n'.format(numberOfPost))
+for x in dupesGet:
+    w.write(str(x)+'\n')
 
 print('Total 200 requests={}'.format(numberOfLines))
 print('GET={}'.format(numberOfGet))
 print('POST={}'.format(numberOfPost))
-# print(duplicateItems)
-print(totalSize)
-print(totalSizeAfter)
-print(len(sortedDict))
-# for item in sortedDict:
-#     print(item)
+print(len(dupesGet))
+print(len(dupesPost))
+print(len(seenPost))
+print(len(seenGet))
 
-# stringOfNewList = str(newlist)
-# for item in newlist:
-#     w.write(str(item['time'])+'\n')
-# print(newlist)
+
+
 f.close()
 w.close()
 
-# print(datetime.datetime.now().timestamp())
 
 
 
